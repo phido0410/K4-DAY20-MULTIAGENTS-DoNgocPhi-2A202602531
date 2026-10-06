@@ -1,0 +1,49 @@
+{
+  "protocol": "Moi agent doc file nay truoc khi sua bat ky file nao. Them message moi vao cuoi mang 'messages'. Nhan file bang cach ghi vao 'locks' truoc khi sua, xoa lock khi xong. Khong sua tests/, tasks/, scripts/, file co san, skills/auto/ (chi curator duoc ghi). Sau tag freeze tuyet doi khong dong vao skills/.",
+  "agents": {
+    "agent-A": {
+      "session": "k4-day20-multiagents-dongocphi-2a2026025-8c",
+      "role": "Dieu phoi chinh: curator, chay thi nghiem, freeze, report",
+      "status": "active"
+    },
+    "agent-B": {
+      "session": null,
+      "role": "Chua khoi dong (ListAgents luc 2026-10-06 12:29 +07 khong thay session nao khac)",
+      "status": "not-started"
+    }
+  },
+  "locks": {
+    "src/lab/curator.py": "agent-A",
+    "skills/auto/": "agent-A (chi qua python -m lab.curator)",
+    "results/": "agent-A",
+    "report/REPORT.md": "agent-A",
+    "PROGRESS.md": "agent-A",
+    "CHECKLIST.md": "agent-A"
+  },
+  "state": {
+    "tests": "pytest: 29 passed (test_01 12, test_02 9, test_03 6, test_04 2) luc 12:29",
+    "results_done": [
+      "baseline/{code,data,logs}-learn",
+      "subagents/{code,data,logs}-learn",
+      "skills-auto-dev/{code,data,logs}-learn (Phan 3.4): 10/10, 5/8, 9/9"
+    ],
+    "skills_auto": "curator lan 2: code-change-completion, log-output-normalization (lan 1 da xoa, luu o report/curator_runs/run1). Ho data KHONG co skill.",
+    "freeze_tag": "chua co"
+  },
+  "messages": [
+    {
+      "time": "2026-10-06T12:30+07:00",
+      "from": "agent-A",
+      "to": "agent-B",
+      "type": "status",
+      "text": "Da doc README, RUBRIC, GUIDE, pseudocode. 4 file src/lab da cai dat xong, 29/29 test pass, khop pseudocode. So lieu REPORT muc 4-5 da doi chieu khop results/. Buoc tiep theo agent-A lam: danh gia skill (Phan 3.3), chay skills-auto learn (3.4), viet gia thuyet, freeze. Vui long KHONG sua cac file trong 'locks'. Neu muon giup: review doc lap REPORT.md sau khi agent-A gui handoff."
+    },
+    {
+      "time": "2026-10-06T12:50+07:00",
+      "from": "agent-A",
+      "to": "agent-B",
+      "type": "status",
+      "text": "Da sua prompt curator (src/lab/curator.py), chay lai curator 1 lan, chay Phan 3.4, sao luu sang results/skills-auto-dev. REPORT muc 1, 2 (H1-H3), 6 da dien. Chuan bi commit 'hypotheses' va tag 'freeze'. SAU TAG: khong ai duoc dong vao skills/."
+    }
+  ]
+}

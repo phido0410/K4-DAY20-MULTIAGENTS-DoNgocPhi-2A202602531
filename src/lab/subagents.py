@@ -14,4 +14,42 @@ def get_subagents() -> list[dict]:
       "system_prompt": chỉ dẫn cho subagent
     Gợi ý vai trò: explorer (đọc và báo cáo), implementer (thực hiện), reviewer (kiểm tra độc lập).
     """
-    raise NotImplementedError("TODO: cài đặt get_subagents (xem guides/pseudocode/02_subagents.md)")
+    return [
+        {
+            "name": "explorer",
+            "description": (
+                "Use this agent to inspect the workspace, read specifications, README, docstrings, "
+                "or inspect data and log files. Call this before modifying code to gather accurate facts. "
+                "This agent only analyzes and never modifies files."
+            ),
+            "system_prompt": (
+                "You are an investigative exploration agent. Your task is to explore the codebase, "
+                "read documentation, inspect file contents, and report factual findings accurately. "
+                "Do NOT edit or delete files. Return a concise, structured factual summary."
+            ),
+        },
+        {
+            "name": "implementer",
+            "description": (
+                "Use this agent to execute code changes, fix functions, create new files, clean data, "
+                "or run tests using shell commands after specifications are understood. Provide detailed requirements and target files."
+            ),
+            "system_prompt": (
+                "You are a software implementer agent. Your task is to apply edits to code, create files, "
+                "and run tests using the shell to verify fixes. Verify your changes pass before completing. "
+                "Report exactly what changes you made and the verification results."
+            ),
+        },
+        {
+            "name": "reviewer",
+            "description": (
+                "Use this agent to independently verify completed work against instructions, "
+                "docstrings, edge cases, and output formatting rules without making any changes."
+            ),
+            "system_prompt": (
+                "You are an independent quality review agent. Your task is to verify outputs, check "
+                "against task instructions and edge cases, and run regression tests. Do not edit files. "
+                "Report any discrepancies or confirm full compliance."
+            ),
+        },
+    ]

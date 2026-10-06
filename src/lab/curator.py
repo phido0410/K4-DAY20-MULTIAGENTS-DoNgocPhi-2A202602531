@@ -4,10 +4,12 @@ Pseudo-code: guides/pseudocode/04_curator.md
 Kiểm tra:    pytest tests/test_04_curator.py
 Chạy thật:   python -m lab.curator
 """
+import json
 import re
 from pathlib import Path
 
-from .tasks import eval_markers   # có sẵn: định danh của tác vụ đánh giá, tính lúc chạy
+from .model import make_model
+from .tasks import ROOT, eval_markers   # có sẵn: định danh của tác vụ đánh giá, tính lúc chạy
 
 # ---- CÓ SẴN, KHÔNG SỬA: kiểm tra và tách khối skill (phần dễ sai và liên quan bảo mật) ----------------
 SAFE_NAME = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -68,7 +70,90 @@ def curate_skills(results_dir="results", source_condition="baseline", out_dir=No
     model mặc định: make_model() (lab.model).
     Trả về: danh sách đường dẫn SKILL.md đã ghi.
     """
-    raise NotImplementedError("TODO: cài đặt curate_skills (xem guides/pseudocode/04_curator.md)")
+    out_path = Path(out_dir) if out_dir is not None else ROOT / "skills" / "auto"
+    base_dir = Path(results_dir) / source_condition
+
+    runs = []
+    if base_dir.exists():
+        for run_file in sorted(base_dir.glob("*/run.json")):
+            try:
+                r = json.loads(run_file.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+
+            if r.get("role") != "learn":
+                continue
+
+            failed = [
+                (c.get("name", ""), c.get("detail", ""))
+                for c in r.get("checks", [])
+                if not c.get("passed", False)
+            ]
+
+            trace_file = run_file.parent / "trace.md"
+            trace = ""
+            if trace_file.exists():
+                full_trace = trace_file.read_text(encoding="utf-8")
+                trace = full_trace[-6000:]
+
+            runs.append({
+                "task": r.get("task", run_file.parent.name),
+                "failed": failed,
+                "trace": trace,
+            })
+
+    # Nếu không có run nào có failed khác rỗng -> in cảnh báo và trả về [] mà không gọi LLM
+    has_any_failed = any(bool(run["failed"]) for run in runs)
+    if not has_any_failed:
+        print("Cảnh báo: không có check thất bại ở tác vụ học")
+        return []
+
+    prompt = (
+        f"You write SKILL documentation for an engineering and data analysis agent.\n"
+        f"Below are failed checks (check names and evaluation bot feedback) and execution traces of runs.\n"
+        f"Identify common procedural mistakes (NOT specific answers) and write up to {max_skills} concise skills "
+        f"to avoid them on future tasks of the same type.\n\n"
+        f"Rules:\n"
+        f"- Skills must be general: do NOT mention task ids, specific filenames of a single task, or numbers/answers.\n"
+        f"- Organization conventions stated in `RULE:` feedback ARE the lesson: future instructions will not repeat them,\n"
+        f"  so restate each convention precisely (required output file names, headings, bullet formats, JSON keys and values,\n"
+        f"  CSV header order, units, naming and sort rules). Only drop details tied to one task's input data\n"
+        f"  (input data file names, function names, data values, computed answers).\n"
+        f"- Each skill must have YAML frontmatter with `name` (lowercase, alphanumeric and hyphens only) and `description` (one sentence: when to use),\n"
+        f"  followed by at most 40 lines of imperative checklist instructions.\n"
+        f"- Exact block format:\n"
+        f"=== SKILL: <name> ===\n"
+        f"---\n"
+        f"name: <name>\n"
+        f"description: <when to use>\n"
+        f"---\n"
+        f"<content>\n"
+        f"=== END ===\n\n"
+    )
+    for run in runs:
+        prompt += f"### Task: {run['task']}\nFailed checks:\n"
+        for name, detail in run["failed"]:
+            prompt += f"- {name}: {detail}\n"
+        if run["trace"]:
+            prompt += f"Recent trace:\n{run['trace']}\n\n"
+
+    llm = model or make_model()
+    response = llm.invoke(prompt)
+    reply = response.content if hasattr(response, "content") else str(response)
+
+    written = []
+    for name, text in parse_skill_blocks(reply):
+        if len(written) >= max_skills:
+            break
+        problems = validate_skill(text, expected_name=name)
+        if problems:
+            continue
+        skill_file = out_path / name / "SKILL.md"
+        skill_file.parent.mkdir(parents=True, exist_ok=True)
+        skill_file.write_text(text, encoding="utf-8")
+        written.append(skill_file)
+
+    return written
 
 
 if __name__ == "__main__":
