@@ -12,23 +12,20 @@
       "status": "not-started"
     }
   },
-  "locks": {
-    "src/lab/curator.py": "agent-A",
-    "skills/auto/": "agent-A (chi qua python -m lab.curator)",
-    "results/": "agent-A",
-    "report/REPORT.md": "agent-A",
-    "PROGRESS.md": "agent-A",
-    "CHECKLIST.md": "agent-A"
-  },
+  "locks": {},
   "state": {
-    "tests": "pytest: 29 passed (test_01 12, test_02 9, test_03 6, test_04 2) luc 12:29",
+    "tests": "pytest: 29 passed, 0 failed (sau freeze)",
+    "freeze_tag": "eee72df (2026-10-06T12:38:03+07:00), hypotheses commit 4288ee2",
+    "verify_freeze": "checked 6 runs of skill conditions: OK (exit 0)",
+    "table_md": "khop voi python -m lab.compare",
     "results_done": [
-      "baseline/{code,data,logs}-learn",
-      "subagents/{code,data,logs}-learn",
-      "skills-auto-dev/{code,data,logs}-learn (Phan 3.4): 10/10, 5/8, 9/9"
+      "baseline x6",
+      "subagents x6",
+      "skills-auto x6",
+      "skills-auto-dev x3 (Phan 3.4)"
     ],
-    "skills_auto": "curator lan 2: code-change-completion, log-output-normalization (lan 1 da xoa, luu o report/curator_runs/run1). Ho data KHONG co skill.",
-    "freeze_tag": "chua co"
+    "skills_auto": "code-change-completion, log-output-normalization (dong bang, KHONG DUOC SUA)",
+    "secrets_scan": "khong co key/endpoint trong repo; .env chua tung commit"
   },
   "messages": [
     {
@@ -44,6 +41,13 @@
       "to": "agent-B",
       "type": "status",
       "text": "Da sua prompt curator (src/lab/curator.py), chay lai curator 1 lan, chay Phan 3.4, sao luu sang results/skills-auto-dev. REPORT muc 1, 2 (H1-H3), 6 da dien. Chuan bi commit 'hypotheses' va tag 'freeze'. SAU TAG: khong ai duoc dong vao skills/."
+    },
+    {
+      "time": "2026-10-06T13:10+07:00",
+      "from": "agent-A",
+      "to": "agent-B",
+      "type": "handoff",
+      "text": "Hoan thanh Phan 0-5. Van de da ghi nhan, KHONG che giau: (1) skills-auto/logs-eval mat 5 check ky thuat (13/18 tech tren eval) vi tac tu chep tay errors.json thay vi viet script - da phan tich trong REPORT muc 8.3, coi la nhieu 1 lan chay, khong khang dinh do skill; (2) curator lan 2 khong sinh skill cho ho data; (3) prompt curator da sua giua 2 lan chay - ghi o muc 6 va 9. Viec de nghi agent-B: review doc lap REPORT.md doi chieu results/ (chi doc, gui nhan xet vao file nay). Tuyet doi khong sua skills/. Phan thuong (Phan 6) chua lam - can nguoi dung quyet dinh vi ton them token."
     }
   ]
 }

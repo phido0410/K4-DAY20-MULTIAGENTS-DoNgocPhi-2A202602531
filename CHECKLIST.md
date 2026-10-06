@@ -103,7 +103,7 @@ Hãy tích `[x]` vào các câu hỏi bạn đã hiểu và có thể giải th�
 - [x] Tôi hiểu lý do vì sao phải commit giả thuyết (H1, H2, H3) TRƯỚC KHI tạo git tag `freeze`.
 - [x] Tôi hiểu cách script `verify_freeze.py` hoạt động để phát hiện gian lận hoặc sai sót quy trình.
 - [x] Tôi phân biệt được hai nhóm lỗi: lỗi kỹ thuật (A-D) và lỗi vi phạm quy ước tổ chức (E - `rule_`).
-- [ ] Tôi hiểu khái niệm đo độ nhiễu (noise) bằng cách so sánh điểm của cùng bộ skill trước và sau khi đóng băng.
+- [x] Tôi hiểu khái niệm đo độ nhiễu (noise) bằng cách so sánh điểm của cùng bộ skill trước và sau khi đóng băng.
 
 ---
 
@@ -149,36 +149,36 @@ Hãy tích `[x]` vào các câu hỏi bạn đã hiểu và có thể giải th�
 
 ### Giai đoạn 4: Đóng băng & Đánh giá Chính thức (CỰC KỲ QUAN TRỌNG)
 - [x] **Bước 4.1:** Viết 3 giả thuyết H1, H2, H3 vào mục 2 của `report/REPORT.md`.
-- [ ] **Bước 4.2:** Commit giả thuyết lên Git:
+- [x] **Bước 4.2:** Commit giả thuyết lên Git:
   ```bash
   git add -A && git commit -m "hypotheses"
   ```
-- [ ] **Bước 4.3:** Chốt skill và tạo tag `freeze`:
+- [x] **Bước 4.3:** Chốt skill và tạo tag `freeze`:
   ```bash
   git add -A && git commit --allow-empty -m "freeze skills" && git tag freeze
   ```
-- [ ] **Bước 4.4:** Chạy các tác vụ đánh giá và chạy lại toàn bộ với skill đóng băng:
+- [x] **Bước 4.4:** Chạy các tác vụ đánh giá và chạy lại toàn bộ với skill đóng băng:
   ```bash
   python -m lab.runner --condition baseline --tasks eval
   python -m lab.runner --condition subagents --tasks eval
   python -m lab.runner --condition skills-auto --tasks all
   ```
-- [ ] **Bước 4.5:** Chạy kiểm tra tính hợp lệ của quy trình đóng băng:
+- [x] **Bước 4.5:** Chạy kiểm tra tính hợp lệ của quy trình đóng băng:
   ```bash
   python scripts/verify_freeze.py
   ```
   👉 **BẮT BUỘC KẾT QUẢ PHẢI IN RA: `checked ... runs of skill conditions: OK` (Exit code 0)**.
-- [ ] **Bước 4.6:** Xuất bảng so sánh tổng hợp:
+- [x] **Bước 4.6:** Xuất bảng so sánh tổng hợp:
   ```bash
   python -m lab.compare > report/table.md
   python scripts/check_breakdown.py
   ```
 
 ### Giai đoạn 5: Hoàn thiện Báo cáo
-- [ ] Dán nội dung `report/table.md` và kết quả `check_breakdown.py` vào mục 7.
-- [ ] Hoàn thành mục 8 (Phân tích chi tiết 6 câu hỏi: điểm số, check kỹ thuật vs quy ước, cơ chế vết, chi phí token, rò rỉ/quá khớp, độ nhiễu).
-- [ ] Hoàn thành mục 9 (Nêu ít nhất 3 hạn chế thực tế của thí nghiệm và ảnh hưởng của chúng).
-- [ ] Hoàn thành mục 10 (Kết luận ngắn gọn tối đa 5 câu).
+- [x] Dán nội dung `report/table.md` và kết quả `check_breakdown.py` vào mục 7.
+- [x] Hoàn thành mục 8 (Phân tích chi tiết 6 câu hỏi: điểm số, check kỹ thuật vs quy ước, cơ chế vết, chi phí token, rò rỉ/quá khớp, độ nhiễu).
+- [x] Hoàn thành mục 9 (Nêu ít nhất 3 hạn chế thực tế của thí nghiệm và ảnh hưởng của chúng).
+- [x] Hoàn thành mục 10 (Kết luận ngắn gọn tối đa 5 câu).
 - [ ] (Tùy chọn) Thực hiện 1 hướng mở rộng trong Phần 6 và ghi vào Phụ lục để nhận tối đa +5 điểm thưởng.
 
 ---
@@ -187,23 +187,23 @@ Hãy tích `[x]` vào các câu hỏi bạn đã hiểu và có thể giải th�
 
 Trước khi nộp bài, hãy rà soát từng mục sau để không bị trừ điểm oan theo [RUBRIC.md](file:///Users/dophi/Desktop/K4-DAY20-MULTIAGENTS-DoNgocPhi-2A202602531/RUBRIC.md):
 
-- [ ] **KHÔNG lộ API Key (-10 điểm):**
+- [x] **KHÔNG lộ API Key (-10 điểm):**
   - Kiểm tra `git status` và `git log`: file `.env` tuyệt đối không được thêm vào git.
   - File `trace.md` và `report/REPORT.md` không chứa chuỗi secret key nào.
-- [ ] **KHÔNG sửa tay file skill hoặc gian lận nội dung (-10 điểm):**
+- [x] **KHÔNG sửa tay file skill hoặc gian lận nội dung (-10 điểm):**
   - Mọi file trong `skills/auto/` phải do `python -m lab.curator` sinh ra tự động.
   - Không có nội dung sao chép từ đề bài hoặc đáp án của các tác vụ đánh giá (`*-eval`).
-- [ ] **KHÔNG sửa các file hệ thống (-10 điểm):**
+- [x] **KHÔNG sửa các file hệ thống (-10 điểm):**
   - Thư mục `tests/`, `tasks/`, `scripts/` giữ nguyên gốc.
   - Các file mã nguồn có sẵn (`model.py`, `tasks.py`, `grading.py`, `testing.py`, `compare.py`, các hằng số prompt) không bị chỉnh sửa.
-- [ ] **Tuân thủ quy trình Freeze (-10 điểm):**
+- [x] **Tuân thủ quy trình Freeze (-10 điểm):**
   - Commit `hypotheses` phải nằm trước tag `freeze` trong lịch sử git.
   - `skills/auto/` không có thay đổi nào sau thời điểm gắn tag `freeze`.
   - Không có lần chạy `skills-auto` nào bị gắn cờ `skills_modified = True`.
   - Lệnh `python scripts/verify_freeze.py` chạy thành công không báo bất kỳ lỗi nào.
-- [ ] **Khớp dữ liệu báo cáo (-5 đến -10 điểm):**
+- [x] **Khớp dữ liệu báo cáo (-5 đến -10 điểm):**
   - Các số điểm, số token, số tool calls trong `report/REPORT.md` và `report/table.md` khớp 100% với dữ liệu JSON trong `results/`.
-- [ ] **Sản phẩm nộp đầy đủ:**
+- [x] **Sản phẩm nộp đầy đủ:**
   - 4 file mã nguồn: `src/lab/agent.py`, `subagents.py`, `runner.py`, `curator.py`.
   - Thư mục `skills/auto/`.
   - Thư mục `results/` (đủ `run.json` và `trace.md` của cả 3 điều kiện x 6 tác vụ).

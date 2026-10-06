@@ -90,6 +90,31 @@ Tài liệu này ghi lại chi tiết các mốc hoàn thành (Checkpoint), gi�
 
 ---
 
-## ⏳ BƯỚC ĐANG THỰC HIỆN:
-* Viết giả thuyết H1–H3 (đã xong), commit `hypotheses`, rồi tag `freeze`.
+## 🧊 CHECKPOINT 4: GIẢ THUYẾT → ĐÓNG BĂNG → CHẠY CHÍNH THỨC
+* **Trạng thái:** ✅ ĐÃ HOÀN THÀNH
+* Commit `hypotheses` = `4288ee2`, sau đó commit `freeze skills` = `eee72df` + tag `freeze` (12:38:03).
+* 12 lần chạy sau freeze, không lần nào lỗi, không lần nào sửa skill. `verify_freeze.py` báo **OK** (exit 0).
+* Bảng `report/table.md` khớp 100% với `python -m lab.compare`.
+
+| | baseline | subagents | skills-auto |
+|---|---|---|---|
+| Điểm TB tác vụ học | 0,66 | 0,66 | **0,88** |
+| Điểm TB tác vụ đánh giá | 0,60 | 0,60 | **0,62** |
+| Token TB / lần chạy | **49.547** | 69.999 | 63.781 |
+
+### 💡 Giải thích kiến thức gần gũi:
+* **Vì sao phải viết giả thuyết trước rồi mới đóng băng?** Giống như nộp bài dự đoán tỉ số trước khi trận đấu bắt đầu. Git ghi lại thời điểm commit, nên không ai có thể "đoán sau khi biết kết quả". `verify_freeze.py` kiểm tra 4 việc: tag tồn tại, `skills/` không đổi từ tag, mỗi lần chạy `skills-auto` có `skills_sha256` trùng với bộ skill đóng băng, và lần chạy bắt đầu SAU giờ tag.
+* **Học tủ trúng tủ, gặp đề mới thì trượt.** Skill giúp đạt đúng 6 quy ước đã thấy (0 → 6 ở cả học lẫn đánh giá), nhưng cả 3 quy ước mới của bài đánh giá đều trượt ở mọi điều kiện. Điểm học tăng +0,22 mà điểm đánh giá chỉ tăng +0,02: đây chính là quá khớp (overfitting).
+* **Một lần chạy có thể "xui".** Ở `logs-eval`, tác tử có skill tự chép tay 23 bản ghi thay vì viết script, nên mất 5 check kỹ thuật mà baseline đều đạt. Các lần chạy logs khác có skill đều viết script, nên mình không đổ lỗi cho skill; mình chỉ ghi nhận rằng skill toàn quy ước định dạng thì không ngăn được kiểu sai này. Bài học: một lần chạy chưa đủ để kết luận các chênh lệch nhỏ.
+* **Đa tác tử không phải lúc nào cũng đáng tiền.** Điểm trùng baseline ở cả 6 bài, token +41%, thời gian gần gấp đôi. Bài ngắn và tuần tự thì một tác tử là đủ.
+* **Nhiễu đo bằng cách chạy lại cùng bộ skill.** So Phần 3.4 với sau freeze: điểm giống hệt, nhưng token lệch tới 18–24%. Vì vậy chỉ tin những chênh lệch lớn và lặp lại.
+
+---
+
+## 📝 CHECKPOINT 5: HOÀN THIỆN BÁO CÁO
+* **Trạng thái:** ✅ ĐÃ HOÀN THÀNH
+* `report/REPORT.md` đủ mục 1–10 + phụ lục; mọi con số đã đối chiếu lại với `results/*/run.json`.
+* Đã quét khóa API: không có trong kho, vết hay báo cáo; `.env` chưa từng được commit.
+* Tests: **29/29 passed**. Không sửa `tests/`, `tasks/`, `scripts/` hay các file có sẵn.
+* Chưa làm phần thưởng (Phần 6). Nếu muốn thêm điểm, hướng 6e (chạy lặp để đo nhiễu) hợp nhất với phát hiện ở `logs-eval`, nhưng tốn thêm khoảng 18 lần chạy.
 
