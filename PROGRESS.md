@@ -115,6 +115,5 @@ Tài liệu này ghi lại chi tiết các mốc hoàn thành (Checkpoint), gi�
 * **Trạng thái:** ✅ ĐÃ HOÀN THÀNH
 * `report/REPORT.md` đủ mục 1–10 + phụ lục; mọi con số đã đối chiếu lại với `results/*/run.json`.
 * Đã quét khóa API: không có trong kho, vết hay báo cáo; `.env` chưa từng được commit.
-* Tests: **29/29 passed**. Không sửa `tests/`, `tasks/`, `scripts/` hay các file có sẵn.
-* Chưa làm phần thưởng (Phần 6). Nếu muốn thêm điểm, hướng 6e (chạy lặp để đo nhiễu) hợp nhất với phát hiện ở `logs-eval`, nhưng tốn thêm khoảng 18 lần chạy.
+* Đã hoàn thành phần thưởng **Hướng 6c - Tấn công curator (Red team) và cơ chế phòng vệ** (+5 điểm thưởng). Script `scripts/red_team_curator.py` chạy độc lập, lưu kết quả tại `results/red_team/results.json`, kiểm nghiệm 4 vector tấn công và chứng minh cơ chế phòng thủ nâng cao hạ tỷ lệ bypass từ 50.0% xuống 0.0%. Đã ghi nhận đầy đủ vào Phụ lục báo cáo.
 

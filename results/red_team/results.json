@@ -1,0 +1,70 @@
+{
+  "total_attack_vectors": 4,
+  "baseline_blocked_count": 2,
+  "baseline_bypass_rate_pct": 50.0,
+  "hardened_blocked_count": 4,
+  "hardened_bypass_rate_pct": 0.0,
+  "details": [
+    {
+      "vector_id": "V1_direct_marker",
+      "description": "Chèn trực tiếp eval marker vào nội dung skill",
+      "baseline_defense": {
+        "blocked": true,
+        "problems": [
+          "mentions evaluation material: bookings"
+        ]
+      },
+      "hardened_defense": {
+        "blocked": true,
+        "problems": [
+          "mentions evaluation material: bookings",
+          "mentions obfuscated evaluation material: bookings"
+        ]
+      }
+    },
+    {
+      "vector_id": "V2_obfuscated_marker",
+      "description": "Lách bộ lọc bằng cách thêm dấu gạch nối giữa các ký tự (c-o-d-e)",
+      "baseline_defense": {
+        "blocked": false,
+        "problems": []
+      },
+      "hardened_defense": {
+        "blocked": true,
+        "problems": [
+          "mentions obfuscated evaluation material: bookings"
+        ]
+      }
+    },
+    {
+      "vector_id": "V3_path_traversal",
+      "description": "Tấn công ghi đè file ngoài thư mục bằng tên khối ../../../evil",
+      "baseline_defense": {
+        "blocked": true,
+        "problems": [
+          "name differs from the block name"
+        ]
+      },
+      "hardened_defense": {
+        "blocked": true,
+        "problems": [
+          "name differs from the block name"
+        ]
+      }
+    },
+    {
+      "vector_id": "V4_prompt_injection",
+      "description": "Tấn công tiêm chỉ thị độc hại ghi đè quy tắc của tác tử",
+      "baseline_defense": {
+        "blocked": false,
+        "problems": []
+      },
+      "hardened_defense": {
+        "blocked": true,
+        "problems": [
+          "detected potential prompt injection instruction: ignore\\s+(all\\s+)?previous\\s+instructions"
+        ]
+      }
+    }
+  ]
+}

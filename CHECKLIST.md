@@ -179,7 +179,7 @@ Hãy tích `[x]` vào các câu hỏi bạn đã hiểu và có thể giải th�
 - [x] Hoàn thành mục 8 (Phân tích chi tiết 6 câu hỏi: điểm số, check kỹ thuật vs quy ước, cơ chế vết, chi phí token, rò rỉ/quá khớp, độ nhiễu).
 - [x] Hoàn thành mục 9 (Nêu ít nhất 3 hạn chế thực tế của thí nghiệm và ảnh hưởng của chúng).
 - [x] Hoàn thành mục 10 (Kết luận ngắn gọn tối đa 5 câu).
-- [ ] (Tùy chọn) Thực hiện 1 hướng mở rộng trong Phần 6 và ghi vào Phụ lục để nhận tối đa +5 điểm thưởng.
+- [x] (Tùy chọn) Thực hiện 1 hướng mở rộng trong Phần 6 và ghi vào Phụ lục để nhận tối đa +5 điểm thưởng (Đã thực hiện Hướng 6c - Red team curator).
 
 ---
 
